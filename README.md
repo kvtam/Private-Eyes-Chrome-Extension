@@ -13,12 +13,13 @@ However, please keep the vulpix as the icon, it's cute.
   4.Now when you are on the new site edit the name field to your judgement and hit the Vulpix icon to execute the script
   
   5.The title field to the EN_description field should be filled in. You may need to edit the fields to make sure they make sense so double check.
+
+  	5a. As of version 0.2 edits the Case field but needs more input to work for more phrases.
   
-  6.Does not edit anyother fields at the moment but anticipate this for a future update.
+  6.Does not edit any other fields at the moment but anticipate this for a future update.
   
 /////Future Ideas
 
-  1. Get it to edit the Case fields
-  2. Get it to translate automatically using the DeepL API
+  1. Get it to translate automatically using the DeepL API
   
   

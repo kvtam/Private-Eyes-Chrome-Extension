@@ -11,15 +11,17 @@
 		var foo=document.getElementById('CatalogBoxName').value;
 		document.getElementById('CatalogBoxTitle').value=document.getElementById('CatalogBoxPageTitle').value=document.getElementById('CatalogBoxEnPageTitle').value =foo;
 		var fooKW=spaceToComma(foo," ",",");
-		fooKW+= ",Vintage";
+		var fooDes = fooKW;
+		fooKW+= ",Vintage Watch";
 		document.getElementById('CatalogBoxKeywords').value= fooKW;
 		document.getElementById('CatalogBoxEnKeywords').value= fooKW;
 		var idNum= document.getElementById('CatalogBoxText1').value;
 		idNum= idNum.slice(2);
-		var fooDes=fooKW+","+idNum;
+		fooDes+=","+idNum;
 		document.getElementById('CatalogBoxDescription').value= fooDes;
 		document.getElementById('CatalogBoxEnDescription').value= fooDes;
 		var jptext= document.getElementById('CatalogBoxHtml1').value;
+		caseEditor();
 		alert(document.getElementById('CatalogBoxText1').value);
 		//toFile("cat");
 		
@@ -42,6 +44,38 @@
 		var data = "auth_key=20c33a91-8d10-d2a4-8f9b-6a8f64ec90d5:fx&text="+inputText+"&target_lang=EN";
 
 		xhr.send(data);
+	}
+	function caseEditor(){
+		//check the Japanese phrases
+		var key = document.getElementById('CatalogBoxText11').value;
+		const jphrases = new Map();
+		jphrases.set("Screw back Water Proof","スクリューバック防水");
+		jphrases.set("Snap back water proof","スナップバック　防水");
+		jphrases.set("Snap back non water proof","スナップバック　非防水");
+		
+		if(jphrases.has(key)){
+			document.getElementById('CatalogBoxText11').value=jphrases.get(key);
+		}else{
+			alert("Enter in the new key/Value for the Japanese case field Kyle");
+		}
+		
+		//check Eng phrases
+		var key1 = document.getElementById('CatalogBoxEnText9').value;
+		var key2 = document.getElementById('CatalogBoxEnText11').value;
+		
+		const enphrases = new Map();
+		enphrases.set("Screw back Water Proof","Screw back Waterproof");
+		enphrases.set("Stainless steer","Stainless steel");
+		enphrases.set("Snap back water proof","Snap back Waterproof");
+		enphrases.set("Snap back non water proof","Snap back Non-waterproof");
+		
+		if(enphrases.has(key2)){
+			document.getElementById('CatalogBoxEnText11').value=enphrases.get(key2);
+		}else{
+			alert("Enter in the new key/Value for the English case field Kyle");
+		}
+		
+	
 	}
 	
 	
