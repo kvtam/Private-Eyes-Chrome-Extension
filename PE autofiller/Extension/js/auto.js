@@ -52,6 +52,7 @@
 		jphrases.set("Screw back Water Proof","スクリューバック防水");
 		jphrases.set("Snap back water proof","スナップバック　防水");
 		jphrases.set("Snap back non water proof","スナップバック　非防水");
+		jphrases.set("Screw back water proof","スクリューバック防水");
 		
 		if(jphrases.has(key)){
 			document.getElementById('CatalogBoxText11').value=jphrases.get(key);
@@ -68,7 +69,7 @@
 		enphrases.set("Stainless steer","Stainless steel");
 		enphrases.set("Snap back water proof","Snap back Waterproof");
 		enphrases.set("Snap back non water proof","Snap back Non-waterproof");
-		
+		enphrases.set("Screw back water proof","Screw back Waterproof");
 		if(enphrases.has(key2)){
 			document.getElementById('CatalogBoxEnText11').value=enphrases.get(key2);
 		}else{
