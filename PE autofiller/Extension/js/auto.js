@@ -31,7 +31,7 @@
 	}
 	function nameParser(){
 		//Regexes here
-		var steel = /(?<=\s)ss(?=\s)|S\.Steel/i;
+		var steel = /(?<=\s)ss(?=\s|$)|S\.Steel/i;
 		var water = /(?<=\s)w\/p(?=\s)/i;
 		var black = /\s?BK/g;
 		var rose = /\s?RG/g;
@@ -44,6 +44,7 @@
 		var toCap=/(?<=\s)[a-z](?=[a-z]{2})/g;
 		var BE=/Bull's Eye/;
 		var toLow=/(?<=[A-Z])[A-Z]*(?=\s|$)/g;
+		var IWC=/IWC/ig;
 		
 		
 		//Array to store tokens
@@ -55,7 +56,8 @@
 		[yellow," Yellow Gold"],
 		[multi, "Multi-"],
 		[overSize,"Oversize"],
-		[BE,"Bullseye"]
+		[BE,"Bullseye"],
+		[IWC,"IWC"]
 		];
 		
 		var name = document.getElementById('CatalogBoxName').value;//get the text from the namebox
@@ -102,6 +104,7 @@
 		var tagBLD=/Box,Lug,Design/i;
 		var tagYears=/(?<=\d{2,4})-(?=\d{2,4})/;
 		var tagBox=/With,Box/;
+		var tagHL=/Horn,Lug/;
 		
 		const rxTokens_tags = [
 		[tagQuote,''],
@@ -119,7 +122,8 @@
 		[tagCushion,"Cushion Case"],
 		[tagBLD,"Box Lug Design"],
 		[tagYears,","],
-		[tagBox="With,Box"]
+		[tagBox,"With,Box"],
+		[tagHL,"Horn Lug"]
 		];
 		
 		for(i=0;i<rxTokens_tags.length;i++){
@@ -182,6 +186,7 @@
 		jphrases.set("Snap back, non-waterproof","スナップバック　非防水");
 		jphrases.set("Snap back non water proof","スナップバック　非防水");
 		jphrases.set("Snap back non Water Proof","スナップバック　非防水");
+		jphrases.set("Snap back Non Water Proof","スナップバック　非防水")
 		jphrases.set("Snap-back case, non-waterproof","スナップバック　非防水");
 		jphrases.set("Screw back water proof","スクリューバック防水");
 		jphrases.set("Screw-back, water-resistant","スクリューバック防水");
@@ -213,6 +218,7 @@
 		enphrases.set("Snap back non water proof","Snap back Non-Water-resistant");
 		enphrases.set("Snap-back case (non-waterproof)","Snap back Non-Water-resistant");
 		enphrases.set("Snap back non Water Proof","Snap back Non-Water-resistant");
+		enphrases.set("Snap back Non Water Proof","Snap back Non-Water-resistant");
 		enphrases.set("Screw back water proof","Screw back Water-resistant");
 		enphrases.set("Screw-back,Waterproof","Screw back Water-resistant");
 		enphrases.set("Screw-back case, water-resistant","Screw back Water-resistant");
