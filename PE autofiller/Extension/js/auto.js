@@ -31,43 +31,56 @@
 	}
 	function nameParser(){
 		//Regexes here
-		var steel = /(?<=\s)ss(?=\s)|S.Steel/i;
+		var steel = /(?<=\s)ss(?=\s)|S\.Steel/i;
 		var water = /(?<=\s)w\/p(?=\s)/i;
-		var black = /BK/;
-		var rose = /RG/;
-		var yellow= /YG/;
-		var year = /\d{2,4}'?s/; 
+		var black = /BK/g;
+		var rose = /RG/g;
+		var yellow= /YG/g;
+		var year = /\d{2,4}['|’|`]s?/; 
 		var dec=/\d*/;
-		var multi=/multi\s/i;
-		var tick=/'/;
+		var multi=/multi\s/ig;
+		var overSize=/over size/ig;
+		var tick=/'|’|`/;
+		var toCap=/(?<=\s)[a-z](?=[a-z]{2})/g;
+		var BE=/Bull's Eye/;
+		var toLow=/(?<=[A-Z])[A-Z]*(?=\s|$)/g;
+		
 		
 		//Array to store tokens
 		const rxTokens = [
 		[steel,"Stainless Steel"],
 		[water,"Waterproof"],
 		[black,"Black"],
-		[rose,"Rose Gold"],
-		[yellow,"Yellow Gold"],
-		[multi, "Multi-"]
+		[rose," Rose Gold"],
+		[yellow," Yellow Gold"],
+		[multi, "Multi-"],
+		[overSize,"Oversize"],
+		[BE,"Bullseye"]
 		];
 		
 		var name = document.getElementById('CatalogBoxName').value;//get the text from the namebox
 		var yearCorrected= year.exec(name);//format the year correctly
+		//Make all words start with a capital
+		
+		name=name.replace(toCap,match => match.toUpperCase());
 		
 		if(!/19/.test(yearCorrected)){
 			//if year doesn't start with 19 then add 19 to the front
 
 			yearCorrected = "19"+yearCorrected;
 		}
-		if(tick.test(yearCorrected)){//if the year has an apostrophe remove it
+		if(tick.test(yearCorrected)&&/s/.test(yearCorrected)){//if the year has an apostrophe remove it
 				yearCorrected=dec.exec(yearCorrected);
 				yearCorrected+="s";
+		}else{
+			yearCorrected=dec.exec(yearCorrected);
 		}
 		name=name.replace(year,yearCorrected);
 		
 		for(i=0;i<rxTokens.length;i++){
 			name=name.replace(rxTokens[i][0],rxTokens[i][1]);
 		}
+		name=name.replace(toLow,match => match.toLowerCase());
 		//At this point all of the tokens should have been replaced
 		document.getElementById('CatalogBoxName').value=name;
 	}
@@ -76,13 +89,37 @@
 		var tagSteel = /Stainless,Steel/;
 		var tagRose =/Rose,Gold/;
 		var tagYellow= /Yellow,Gold/;
-		var tagCaliber=/"\d*mm,Caliber"/
+		var tagCaliber=/\d*mm,Caliber/i;
+		var tagGilt=/Gilt,dial/i;
+		var tagQuote=/"/g;
+		var tagSM300=/Seamaster,300/;
+		var tagCross=/Cross,Design/;
+		var tagAuto=/Automatic,Model/;
+		var tagBH=/Birdie,Hour,Design/;
+		var tagPD=/Panda,Design/;
+		var tagSector=/Sector,Dial/;
+		var tagCushion=/Cushion,Case/
+		var tagBLD=/Box,Lug,Design/i;
+		var tagYears=/(?<=\d{2,4})-(?=\d{2,4})/;
+		var tagBox=/With,Box/;
 		
 		const rxTokens_tags = [
+		[tagQuote,''],
 		[tagSteel,"Stainless Steel"],
 		[tagRose,"Rose Gold"],
 		[tagYellow,"Yellow Gold"],
-		[tagCaliber,"30mm Caliber"]
+		[tagCaliber,"30mm Caliber"],
+		[tagGilt, "Gilt Dial"],
+		[tagSM300,"Seamaster-300"],
+		[tagCross,"Cross Design"],
+		[tagAuto,"Automatic Model"],
+		[tagBH,"Birdie Hour Design"],
+		[tagPD,"Panda Design"],
+		[tagSector,"Sector Dial"],
+		[tagCushion,"Cushion Case"],
+		[tagBLD,"Box Lug Design"],
+		[tagYears,","],
+		[tagBox="With Box"]
 		];
 		
 		for(i=0;i<rxTokens_tags.length;i++){
@@ -95,12 +132,18 @@
 		
 		var rmIn = /(?<=,)in,/ig;
 		var rmWith= /(?<=,)with,/ig;
-		var rmDesign=/(?<=,)design,/ig;
+		var rmDesign=/(?<=,)design,|,Design(?=$)/ig;
+		var rmRare=/(?<=,)rare,/ig;
+		var rmEX=/\!/;
+		var rmDial=/(?<=,)Dial,|,Dial(?=$)/ig;
 		
 		const rmTokens=[
 		rmIn,
 		rmWith,
-		rmDesign
+		rmDesign,
+		rmRare,
+		rmEX,
+		rmDial
 		]
 		for(i=0;i<rmTokens.length;i++){
 			str=str.replace(rmTokens[i],'');
@@ -133,6 +176,7 @@
 		const jphrases = new Map();
 		jphrases.set("Screw back Water Proof","スクリューバック防水");
 		jphrases.set("Snap back water proof","スナップバック　防水");
+		jphrases.set("Snap back Water Proof","スナップバック　防水");
 		jphrases.set("Snap-back, water-resistant","スナップバック　防水");
 		jphrases.set("Snapback, non-waterproof","スナップバック　非防水");
 		jphrases.set("Snap back, non-waterproof","スナップバック　非防水");
