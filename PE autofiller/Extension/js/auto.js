@@ -33,9 +33,9 @@
 		//Regexes here
 		var steel = /(?<=\s)ss(?=\s)|S\.Steel/i;
 		var water = /(?<=\s)w\/p(?=\s)/i;
-		var black = /BK/g;
-		var rose = /RG/g;
-		var yellow= /YG/g;
+		var black = /\s?BK/g;
+		var rose = /\s?RG/g;
+		var yellow= /\s?YG/g;
 		var year = /\d{2,4}['|’|`]s?/; 
 		var dec=/\d*/;
 		var multi=/multi\s/ig;
@@ -119,7 +119,7 @@
 		[tagCushion,"Cushion Case"],
 		[tagBLD,"Box Lug Design"],
 		[tagYears,","],
-		[tagBox="With Box"]
+		[tagBox="With,Box"]
 		];
 		
 		for(i=0;i<rxTokens_tags.length;i++){
@@ -131,7 +131,7 @@
 	function tagRemove(str){
 		
 		var rmIn = /(?<=,)in,/ig;
-		var rmWith= /(?<=,)with,/ig;
+		var rmWith= /(?<=,)with !box,/ig;
 		var rmDesign=/(?<=,)design,|,Design(?=$)/ig;
 		var rmRare=/(?<=,)rare,/ig;
 		var rmEX=/\!/;
