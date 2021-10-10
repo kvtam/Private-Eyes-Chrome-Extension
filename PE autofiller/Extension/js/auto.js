@@ -25,24 +25,30 @@
 		var jptext= document.getElementById('CatalogBoxHtml1').value;
 		caseEditor();
 		
-		alert(document.getElementById('CatalogBoxText1').value);
+		var pageNum=window.location.href;
+		pageNum=pageNum.toString();
+			
+		var num= /(?<=\/)\d+(?=\/)/.exec(pageNum);
+		//var num=pageNum.replace(/[\D]/g,'');
+			//alert(num);
+		alert(document.getElementById('CatalogBoxText1').value +","+num);
 		
 		
 	}
 	function yearFormat(str){
 		//regexes
 		var year = /(\d{2,4}['|’|`]s?)|(\d{2,4}(?=s))/i;
-		var multiYear=/\d*-\d*['|’|`]?s?/i;
+		var multiYear=/\d+-\d+['|’|`]?s?/i;
 		var dec=/\d*/;
 		var tick=/'|’|`/;
 		//variables
 		var yearCorrected;
 		if(!multiYear.test(str)){//If it's not a multi year do this
 			yearCorrected= year.exec(str);//format the year correctly
-			
 			if(!(/19/.test(yearCorrected))){
 				//if year doesn't start with 19 then add 19 to the front
 				yearCorrected = "19"+yearCorrected;
+				
 			}
 			if(tick.test(yearCorrected)&&/s/.test(yearCorrected)){//if the year has an apostrophe remove it
 					yearCorrected=dec.exec(yearCorrected);
@@ -154,6 +160,9 @@
 		var tagScale=/\w*,Scale/i;
 		var tagIndex=/\w*,Index/i;
 		var tagBigBlue=/Big,Blue/;
+		var tagSandDial=/Sandwich,Dial/;
+		var tagAdmiral=/Admiralty,Model/i;
+		var tagMarine=/Marine,Standard/i;
 		
 		const rxTokens_tags = [
 		[tagQuote,''],
@@ -165,6 +174,7 @@
 		[tagSM300,"Seamaster-300"],
 		[tagCross,"Cross Design"],
 		[tagAuto,"Automatic Model"],
+		[tagAdmiral,"Admiralty Model"],
 		[tagBH,"Birdie Hour "],
 		[tagPD,"Panda Design"],
 		[tagSector,"Sector Dial"],
@@ -176,6 +186,8 @@
 		[tagSD,"Snail Dial"],
 		[tagMD,"Mirror Dial"],
 		[tagBigBlue,"Big Blue"],
+		[tagSandDial,"Sandwich Dial"],
+		[tagMarine,"Marine Standard"],
 		[tagYGF, "Yellow Gold Filled"]
 		];
 		if(tagWatch.test(str)){
@@ -255,7 +267,8 @@
 		jphrases.set("Snap back, non-waterproof","スナップバック　非防水");
 		jphrases.set("Snap back non water proof","スナップバック　非防水");
 		jphrases.set("Snap back non Water Proof","スナップバック　非防水");
-		jphrases.set("Snap back Non Water Proof","スナップバック　非防水")
+		jphrases.set("Snap back Non Water Proof","スナップバック　非防水");
+		jphrases.set("Snap back non w/p","スナップバック　非防水");
 		jphrases.set("Snap-back case, non-waterproof","スナップバック　非防水");
 		jphrases.set("Screw back water proof","スクリューバック防水");
 		jphrases.set("Screw-back, water-resistant","スクリューバック防水");
@@ -296,9 +309,9 @@
 		enphrases.set("Snap-back, non-waterproof","Snap back Non-Water-resistant");
 		enphrases.set("Snap-back case, non-waterproof","Snap back Non-Water-resistant");
 		enphrases.set("Water Proof","Waterproof");
-		enphrases.set("スナップバック 非防水","Snap back Non-waterproof");
-		enphrases.set("スナップバック 防水","Snap back Waterproof");
-		enphrases.set("スクリューバック 防水","Snap back Waterproof");
+		enphrases.set("スナップバック 非防水","Snap back Non-Water-resistant");
+		enphrases.set("スナップバック 防水","Snap back Water-resistant");
+		enphrases.set("スクリューバック 防水","Snap back Water-resistant");
 		enphrases.set("手巻","Manual Wind");
 		enphrases.set("プリント","Print");
 		enphrases.set("ステイブライト","Staybrite");
@@ -321,8 +334,9 @@
 		enphrases.set("ノン オリジナル （ベルト幅：18mm）/ GF Type-2","Non-original (Lug width: 18mm) /GF Type-2");
 		enphrases.set("ノン オリジナル （ベルト幅：18mm） / GF Type-2","Non-original (Lug width: 18mm) /GF Type-2");
 		enphrases.set("ノン オリジナル （ベルト幅：16mm） /  GF Type-4","Non-original (Lug width: 16mm) /GF Type-4");
-		enphrases.set("Snapback, non-waterproof","Snap back Non-waterproof");
-		enphrases.set("Snap back, non-waterproof","Snap back Non-waterproof");
+		enphrases.set("Snapback, non-waterproof","Snap back Non-Water-resistant");
+		enphrases.set("Snap back, non-waterproof","Snap back Non-Water-resistant");
+		enphrases.set("Snap back non w/p","Snap back Non-Water-resistant");
 		
 		
 		if(enphrases.has(key1)){
