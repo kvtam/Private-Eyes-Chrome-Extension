@@ -29,6 +29,50 @@
 		
 		
 	}
+	function yearFormat(str){
+		//regexes
+		var year = /(\d{2,4}['|’|`]s?)|(\d{2,4}(?=s))/i;
+		var multiYear=/\d*-\d*['|’|`]?s?/i;
+		var dec=/\d*/;
+		var tick=/'|’|`/;
+		//variables
+		var yearCorrected;
+		if(!multiYear.test(str)){//If it's not a multi year do this
+			yearCorrected= year.exec(str);//format the year correctly
+			
+			if(!(/19/.test(yearCorrected))){
+				//if year doesn't start with 19 then add 19 to the front
+				yearCorrected = "19"+yearCorrected;
+			}
+			if(tick.test(yearCorrected)&&/s/.test(yearCorrected)){//if the year has an apostrophe remove it
+					yearCorrected=dec.exec(yearCorrected);
+					yearCorrected+="s";
+				
+			}else{
+
+				yearCorrected=dec.exec(yearCorrected);
+			}
+			if(/\d{3}!0/.test(yearCorrected)){//if the year doesn't end with a 0 then remove the 's'
+				yearCorrected=yearCorrected.replace('s','');
+			}
+			return str.replace(year,yearCorrected);
+		}else{
+			yearCorrected=multiYear.exec(str);
+			
+			var yearStart = /\d{2,4}(?=-)/.exec(yearCorrected);
+			
+			var yearEnd = /(?<=-)\d{2,4}/.exec(yearCorrected);
+						if(!/19/.test(yearStart)){
+				yearStart='19'+yearStart;
+			}
+			if(!/19/.test(yearEnd)){
+				yearEnd='19'+yearEnd;
+			}
+			yearCorrected=yearStart+'-'+yearEnd;
+		}
+		return str.replace(multiYear,yearCorrected);
+		
+	}
 	function nameParser(){
 		//Regexes here
 		var steel = /(?<=\s)ss(?=\s|$)|S\.Steel/i;
@@ -38,17 +82,16 @@
 		var yellow= /\s?YG\s/g;
 		var yGF=/\s?YGF/ig;
 		var pink=/\s?PG/g;
-		var year = /(\d{2,4}['|’|`])|((?<=-)\d{2}['|`|’]s?)|(\d{2,4}(?=s))/; 
-		var dec=/\d*/;
 		var multi=/multi\s/ig;
 		var overSize=/over size/ig;
-		var tick=/'|’|`/;
 		var toCap=/(?<=\s)[a-z](?=[a-z]{2})/g;
 		var BE=/Bull's Eye/;
-		var toLow=/(?<=[A-Z])[A-Z]*(?=\s|$)/g;
+		var toLow=/(?<=[A-Z])[A-Z]*(?=.)/g;
 		var IWC=/IWC/ig;
 		var Ex=/\!/g;
 		var fullRotate=/Full Rotating/gi;
+		var screwBack=/Screw Back/gi;
+		var artDeco=/art deco/gi;
 	
 		
 		
@@ -66,30 +109,16 @@
 		[overSize,"Oversize"],
 		[BE,"Bullseye"],
 		[fullRotate,"Full-Rotating"],
+		[screwBack,"Screw-back"],
+		[artDeco,"Art-deco"],
 		[IWC,"IWC"]
 		];
 		
 		var name = document.getElementById('CatalogBoxName').value;//get the text from the namebox
 		name=name.replace(Ex,"");
-		var yearCorrected= year.exec(name);//format the year correctly
-
-		//Make all words start with a capital
-		
+		//Make all words start with a capital	
 		name=name.replace(toCap,match => match.toUpperCase());
-		
-		if(!(/19/.test(yearCorrected))){
-			//if year doesn't start with 19 then add 19 to the front
-
-			yearCorrected = "19"+yearCorrected;
-		}
-		if(tick.test(yearCorrected)&&/s/.test(yearCorrected)){//if the year has an apostrophe remove it
-				yearCorrected=dec.exec(yearCorrected);
-				yearCorrected+="s";
-		}else{
-
-			yearCorrected=dec.exec(yearCorrected);
-		}
-		name=name.replace(year,yearCorrected);
+		name=yearFormat(name);
 		
 		for(i=0;i<rxTokens.length;i++){
 			name=name.replace(rxTokens[i][0],rxTokens[i][1]);
@@ -177,7 +206,7 @@
 		var rmRare=/(?<=,)rare,/ig;
 		var rmComma=/(?<=,),*(?=$)?/g;
 		var rmDial=/(?<=,)Dial,|,Dial(?=$)/ig;
-		var rmModel=/(?<=,)Model(,|$)/g;
+		var rmModel=/(?<=,)Model,|,Model(?=$)/g;
 
 		
 		const rmTokens=[
