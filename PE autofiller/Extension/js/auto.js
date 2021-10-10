@@ -35,8 +35,10 @@
 		var water = /(?<=\s)w\/p(?=\s)/i;
 		var black = /\s?BK/g;
 		var rose = /\s?RG/g;
-		var yellow= /\s?YG/g;
-		var year = /\d{2,4}['|’|`]s?/; 
+		var yellow= /\s?YG\s/g;
+		var yGF=/\s?YGF/ig;
+		var pink=/\s?PG/g;
+		var year = /(\d{2,4}['|’|`])|((?<=-)\d{2}['|`|’]s?)|(\d{2,4}(?=s))/; 
 		var dec=/\d*/;
 		var multi=/multi\s/ig;
 		var overSize=/over size/ig;
@@ -45,6 +47,10 @@
 		var BE=/Bull's Eye/;
 		var toLow=/(?<=[A-Z])[A-Z]*(?=\s|$)/g;
 		var IWC=/IWC/ig;
+		var Ex=/\!/g;
+		var fullRotate=/Full Rotating/gi;
+	
+		
 		
 		
 		//Array to store tokens
@@ -53,20 +59,25 @@
 		[water,"Waterproof"],
 		[black,"Black"],
 		[rose," Rose Gold"],
-		[yellow," Yellow Gold"],
+		[yellow," Yellow Gold "],
+		[yGF," Yellow Gold Filled"],
+		[pink," Pink Gold"],
 		[multi, "Multi-"],
 		[overSize,"Oversize"],
 		[BE,"Bullseye"],
+		[fullRotate,"Full-Rotating"],
 		[IWC,"IWC"]
 		];
 		
 		var name = document.getElementById('CatalogBoxName').value;//get the text from the namebox
+		name=name.replace(Ex,"");
 		var yearCorrected= year.exec(name);//format the year correctly
+
 		//Make all words start with a capital
 		
 		name=name.replace(toCap,match => match.toUpperCase());
 		
-		if(!/19/.test(yearCorrected)){
+		if(!(/19/.test(yearCorrected))){
 			//if year doesn't start with 19 then add 19 to the front
 
 			yearCorrected = "19"+yearCorrected;
@@ -75,6 +86,7 @@
 				yearCorrected=dec.exec(yearCorrected);
 				yearCorrected+="s";
 		}else{
+
 			yearCorrected=dec.exec(yearCorrected);
 		}
 		name=name.replace(year,yearCorrected);
@@ -90,21 +102,29 @@
 		//regexes
 		var tagSteel = /Stainless,Steel/;
 		var tagRose =/Rose,Gold/;
-		var tagYellow= /Yellow,Gold/;
+		var tagYellow= /Yellow,Gold(?=!Filled)?/;
+		var tagPink=/Pink,Gold/;
 		var tagCaliber=/\d*mm,Caliber/i;
 		var tagGilt=/Gilt,dial/i;
 		var tagQuote=/"/g;
 		var tagSM300=/Seamaster,300/;
 		var tagCross=/Cross,Design/;
 		var tagAuto=/Automatic,Model/;
-		var tagBH=/Birdie,Hour,Design/;
+		var tagBH=/Birdie,Hour,/;
 		var tagPD=/Panda,Design/;
 		var tagSector=/Sector,Dial/;
 		var tagCushion=/Cushion,Case/
 		var tagBLD=/Box,Lug,Design/i;
 		var tagYears=/(?<=\d{2,4})-(?=\d{2,4})/;
 		var tagBox=/With,Box/;
-		var tagHL=/Horn,Lug/;
+		var tagLug=/\w*,Lug/;
+		var tagSD=/Snail,Dial/;
+		var tagWatch=/\w*,Watch/;
+		var tagMD=/Mirror,Dial/;
+		var tagYGF=/Yellow,Gold,Filled/;
+		var tagScale=/\w*,Scale/i;
+		var tagIndex=/\w*,Index/i;
+		var tagBigBlue=/Big,Blue/;
 		
 		const rxTokens_tags = [
 		[tagQuote,''],
@@ -116,16 +136,33 @@
 		[tagSM300,"Seamaster-300"],
 		[tagCross,"Cross Design"],
 		[tagAuto,"Automatic Model"],
-		[tagBH,"Birdie Hour Design"],
+		[tagBH,"Birdie Hour "],
 		[tagPD,"Panda Design"],
 		[tagSector,"Sector Dial"],
 		[tagCushion,"Cushion Case"],
 		[tagBLD,"Box Lug Design"],
 		[tagYears,","],
 		[tagBox,"With,Box"],
-		[tagHL,"Horn Lug"]
+		[tagPink,"Pink Gold"],
+		[tagSD,"Snail Dial"],
+		[tagMD,"Mirror Dial"],
+		[tagBigBlue,"Big Blue"],
+		[tagYGF, "Yellow Gold Filled"]
 		];
+		if(tagWatch.test(str)){
+			str=str.replace(/,Watch/," Watch");
+		}
+		if(tagLug.test(str)){
+			str=str.replace(/,Lug/," Lug");
+		}
+		if(tagScale.test(str)){
+			str=str.replace(/,Scale/," Scale");
+		}
+		if(tagIndex.test(str)){
+			str=str.replace(/,Index/," Index");
+		}
 		
+			
 		for(i=0;i<rxTokens_tags.length;i++){
 			str=str.replace(rxTokens_tags[i][0],rxTokens_tags[i][1]);
 		}
@@ -138,16 +175,19 @@
 		var rmWith= /(?<=,)with !box,/ig;
 		var rmDesign=/(?<=,)design,|,Design(?=$)/ig;
 		var rmRare=/(?<=,)rare,/ig;
-		var rmEX=/\!/;
+		var rmComma=/(?<=,),*(?=$)?/g;
 		var rmDial=/(?<=,)Dial,|,Dial(?=$)/ig;
+		var rmModel=/(?<=,)Model(,|$)/g;
+
 		
 		const rmTokens=[
 		rmIn,
 		rmWith,
 		rmDesign,
 		rmRare,
-		rmEX,
-		rmDial
+		rmDial,
+		rmModel,
+		rmComma
 		]
 		for(i=0;i<rmTokens.length;i++){
 			str=str.replace(rmTokens[i],'');
