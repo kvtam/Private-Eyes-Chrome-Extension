@@ -37,8 +37,8 @@
 	}
 	function yearFormat(str){
 		//regexes
-		var year = /(\d{2,4}['|’|`]s?)|(\d{2,4}(?=s))/i;
-		var multiYear=/\d+-\d+['|’|`]?s?/i;
+		var year = /^(\d{2,4}['|’|`]s?)|(\d{2,4}(?=s))/i;
+		var multiYear=/^\d+-\d+['|’|`]?s?/i;
 		var dec=/\d*/;
 		var tick=/'|’|`/;
 		//variables
@@ -87,6 +87,7 @@
 		var rose = /\s?RG/g;
 		var yellow= /\s?YG\s/g;
 		var yGF=/\s?YGF/ig;
+		var GF=/(?<!Y)GF/ig;
 		var pink=/\s?PG/g;
 		var multi=/multi\s/ig;
 		var overSize=/over size/ig;
@@ -116,6 +117,7 @@
 		[BE,"Bullseye"],
 		[fullRotate,"Full-Rotating"],
 		[screwBack,"Screw-back"],
+		[GF,"Gold Filled"],
 		[artDeco,"Art-deco"],
 		[IWC,"IWC"]
 		];
@@ -163,6 +165,7 @@
 		var tagSandDial=/Sandwich,Dial/;
 		var tagAdmiral=/Admiralty,Model/i;
 		var tagMarine=/Marine,Standard/i;
+		var tagGF = /Gold,Filled/i;
 		
 		const rxTokens_tags = [
 		[tagQuote,''],
@@ -188,6 +191,7 @@
 		[tagBigBlue,"Big Blue"],
 		[tagSandDial,"Sandwich Dial"],
 		[tagMarine,"Marine Standard"],
+		[tagGF, "Gold Filled"],
 		[tagYGF, "Yellow Gold Filled"]
 		];
 		if(tagWatch.test(str)){
@@ -213,7 +217,7 @@
 	function tagRemove(str){
 		
 		var rmIn = /(?<=,)in,/ig;
-		var rmWith= /(?<=,)with !box,/ig;
+		var rmWith= /(?<=,)with,/ig;
 		var rmDesign=/(?<=,)design,|,Design(?=$)/ig;
 		var rmRare=/(?<=,)rare,/ig;
 		var rmComma=/(?<=,),*(?=$)?/g;
