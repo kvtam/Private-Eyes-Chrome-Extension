@@ -27,9 +27,9 @@
 		
 		
 		
-		translator(document.getElementById('CatalogBoxHtml1').value);	
+		//translator(document.getElementById('CatalogBoxHtml1').value);	//uncomment these if you sign up for the API
 		
-		translator(document.getElementById('CatalogBoxHtml2').value);
+		//translator(document.getElementById('CatalogBoxHtml2').value);
 		
 		
 	}
@@ -373,7 +373,7 @@
 		}
 		};
 		
-		var data = "yourDeepLAPIKey&text="+inputText+"&target_lang=EN";//Put your own DeepL API key here, sign up on their website to recieve it.
+		//var data = "yourDeepLAPIKey&text="+inputText+"&target_lang=EN";//Put your own DeepL API key here, sign up on their website to recieve it.
 
 		xhr.send(data);
 			
