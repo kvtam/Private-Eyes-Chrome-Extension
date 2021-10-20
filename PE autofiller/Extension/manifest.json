@@ -1,7 +1,7 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "PrivateEyesAutoFill",
-	"version": "0.2",
+	"version": "0.3",
 	"description": "Used for filling out website info",
 	"background":{
 		"persistent": true,
