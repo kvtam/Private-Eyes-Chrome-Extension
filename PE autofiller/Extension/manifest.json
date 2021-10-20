@@ -16,6 +16,17 @@
 		"https://*/*",
 		"activeTab"
 	],
+	"commands":{
+		"toggle-foo":{
+			"suggested_key":{
+			"default":"Ctrl+Shift+4",
+			"mac": "Command + Shift+4"
+			},
+			
+			"description":"script",
+			"global": true
+		}
+	},
 	"icons": {
 		"16": "icons/vulpix.png",
 		"32": "icons/vulpix.png"
