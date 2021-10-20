@@ -1,4 +1,3 @@
-
 	
 	function spaceToComma(string,target,replacement){ //Function to replace spaces in a string to commas
 		var i = 0, length = string.length;
@@ -26,13 +25,11 @@
 		fieldsToCap();
 		caseEditor();
 		
-		var pageNum=window.location.href;
-		pageNum=pageNum.toString();
-			
-		var num= /(?<=\/)\d+(?=\/)/.exec(pageNum);
-		//var num=pageNum.replace(/[\D]/g,'');
-			//alert(num);
-		//alert(document.getElementById('CatalogBoxText1').value +","+num);
+		
+		
+		translator(document.getElementById('CatalogBoxHtml1').value);	
+		
+		translator(document.getElementById('CatalogBoxHtml2').value);
 		
 		
 	}
@@ -357,8 +354,8 @@
 		return str;
 	}
 	//TODO: make this function work
-	/*
-	function translator(inputText){ //Function to translate text and put into string using the deepL api 
+	
+	function translator(inputText,outputField){ //Function to translate text and put into string using the deepL api 
 		var url = "https://api-free.deepl.com/v2/translate";
 
 		var xhr = new XMLHttpRequest();
@@ -367,16 +364,21 @@
 		xhr.onreadystatechange = function () {
 		if (xhr.readyState === 4) {
 			console.log(xhr.status);
-			//console.log(xhr.responseText);
-			return xhr.responseText;
+			console.log(xhr.responseText);
+			//return xhr.responseText;
+			var reg=/(?<="text":").*(?=")/;
+			 rx =xhr.responseText.match(reg);
+			alert(rx);
+				
 		}
 		};
-
-		var data = "auth_key=20c33a91-8d10-d2a4-8f9b-6a8f64ec90d5:fx&text="+inputText+"&target_lang=EN";
+		
+		var data = "yourDeepLAPIKey&text="+inputText+"&target_lang=EN";//Put your own DeepL API key here, sign up on their website to recieve it.
 
 		xhr.send(data);
+			
 	}
-	*/
+	
 	function caseEditor(){ //Function to edit the 'case fields in both English and Japanese'
 		//check the Japanese phrases
 		var key = document.getElementById('CatalogBoxText11').value;
