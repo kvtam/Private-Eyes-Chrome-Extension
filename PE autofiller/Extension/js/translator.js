@@ -23,7 +23,7 @@ function translator(inputText){ //Function to translate text and put into string
 			}
 		};
 		
-		var data = "auth_key=&text="+inputText+"&target_lang=EN";//Put your own DeepL API key here, sign up on their site
+		var data = "auth_key= KEY GOES HERE &text="+inputText+"&target_lang=EN";//Put your own DeepL API key here, sign up on their site
 		xhr.send(data);
 			
 }
