@@ -31,7 +31,7 @@ function autofill(){ //autofill function fills in the name/ description and stuf
 
 function dateTimeEdit(){ //Function to edit the year
 	let input = window.prompt("BG color?");
-	//let date= document.getElementById('datetime5').value;
+	let date= document.getElementById('datetime5').value;
 	input=input.toUpperCase();
 	switch(input){
 		case 'B':
