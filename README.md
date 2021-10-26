@@ -20,6 +20,12 @@ However, please keep the vulpix as the icon, it's cute.
   
   6.Does not edit any other fields at the moment but anticipate this for a future update.
   
+ ////Version 0.5t update(You need an API key to use this version)
+  -clicking on the vulpix now edits the fields and translates the first html textbox at the bottom. translated text comes as an alert you can copy/paste
+  -(CTRL+Shift+4) translates the second txt box in the same manner
+  
+  
+  
 /////Future Ideas
 
   1. Get it to translate automatically using the DeepL API *DONE
