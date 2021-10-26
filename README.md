@@ -12,7 +12,7 @@ However, please keep the vulpix as the icon, it's cute.
   
   4.Now when you are on the new site edit the name field to your judgement and hit the Vulpix icon to execute the script
     
-    4a. As of ver 0.5 a prompt will appear asking about the BG color. You should use a single letter (W=White/B=Black) case insensitive. 
+    4a. As of ver 0.5 a prompt will appear asking about the BG color. You should use a single letter (W=White/B=Black) case insensitive.
   
   5.The title field to the EN_description field should be filled in. You may need to edit the fields to make sure they make sense so double check.
 
