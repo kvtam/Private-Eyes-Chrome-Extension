@@ -35,10 +35,10 @@ function dateTimeEdit(){ //Function to edit the year
 	input=input.toUpperCase();
 	switch(input){
 		case 'B':
-			document.getElementById('datetime5').value=date.replace("2021","2019");
+			document.getElementById('datetime5').value=date.replace(/20\d\d/,"2019");
 			break;
 		case 'W':
-			document.getElementById('datetime5').value=date.replace("2021","2015");
+			document.getElementById('datetime5').value=date.replace(/20\d\d/,"2015");
 			break;
 		default:
 			alert("Unrecogized BG color");
