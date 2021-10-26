@@ -20,7 +20,7 @@ However, please keep the vulpix as the icon, it's cute.
   
 /////Future Ideas
 
-  1. Get it to translate automatically using the DeepL API
-  2. Learn how to implement this using Regex (Right now the code is a crime against humanity)
+  1. Get it to translate automatically using the DeepL API *DONE
+  2. Learn how to implement this using Regex (Right now the code is a crime against humanity) *DONE
   
   
