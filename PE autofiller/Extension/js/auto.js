@@ -33,16 +33,16 @@ function dateTimeEdit(){ //Function to edit the year
 	let input = window.prompt("BG color?");
 	//let date= document.getElementById('datetime5').value;
 	input=input.toUpperCase();
-	//switch(input){
-	//	case 'B':
+	switch(input){
+		case 'B':
 			document.getElementById('datetime5').value=date.replace("2021","2019");
-	/*		break;
+			break;
 		case 'W':
 			document.getElementById('datetime5').value=date.replace("2021","2015");
 			break;
 		default:
 			alert("Unrecogized BG color");
-	}*/
+	}
 	
 }
 
