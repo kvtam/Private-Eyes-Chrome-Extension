@@ -16,7 +16,7 @@ function autofill(){ //autofill function fills in the name/ description and stuf
 	fooKW+= ",Vintage Watch";
 	document.getElementById('CatalogBoxKeywords').value= fooKW;//Inputs the tags into the fields
 	document.getElementById('CatalogBoxEnKeywords').value= fooKW;
-	let idNum= document.getElementById('CatalogBoxText1').value; //This section gets the ID Number for the watch  
+	let idNum= document.getElementById('CatalogBoxText1').value; //This section gets the ID Number for the watch 
 	idNum= idNum.slice(2);
 	fooDes+=","+idNum;
 	document.getElementById('CatalogBoxDescription').value= fooDes;
@@ -25,24 +25,24 @@ function autofill(){ //autofill function fills in the name/ description and stuf
 	caseEditor(); //Edits the information in the "Case" fields
 	dateTimeEdit();
 	let jptext= document.getElementById('CatalogBoxHtml1').value;//Get the Japanese text to translate
-	translator(jptext);//Translate the text
+	//translator(jptext);//Translate the text
 	
 }
 
 function dateTimeEdit(){ //Function to edit the year
-	let input = window.prompt("BG color?");
+	//let input = window.prompt("BG color?");
 	let date= document.getElementById('datetime5').value;
-	input=input.toUpperCase();
-	switch(input){
-		case 'B':
+	//input=input.toUpperCase();
+	//switch(input){
+	//	case 'B':
 			document.getElementById('datetime5').value=date.replace(/20\d\d/,"2019");
-			break;
+	/*		break;
 		case 'W':
 			document.getElementById('datetime5').value=date.replace(/20\d\d/,"2015");
 			break;
 		default:
 			alert("Unrecogized BG color");
-	}
+	}*/
 	
 }
 
@@ -129,6 +129,10 @@ function nameParser(){ //Function to parse and format the 'name' box on the Peye
 	let artDeco=/art deco/gi;
 	let PW =/P[,\.\/]?W/ig;
 	let WRB=/W,\s?Rosch Bern/ig;
+	let WG=/WG(?!F)/gi;
+	let WGF=/WGF/gi;
+	let Ref=/Ref\.\s\d*/ig;
+	let Cal=/Cal\.\s\d*/ig;
 	
 	//Array to store tokens
 	const rxTokens = [
@@ -137,6 +141,7 @@ function nameParser(){ //Function to parse and format the 'name' box on the Peye
 	[WP,"Water-resistant"],
 	[black," Black"],
 	[rose," Rose Gold"],
+	[WGF," White Gold Filled"],
 	[yellow," Yellow Gold "],
 	[yGF," Yellow Gold Filled"],
 	[pink," Pink Gold"],
@@ -145,11 +150,12 @@ function nameParser(){ //Function to parse and format the 'name' box on the Peye
 	[BE,"Bullseye"],
 	[fullRotate,"Full-Rotating"],
 	[screwBack,"Screw-back"],
-	[GF,"Gold Filled"],
 	[artDeco,"Art-deco"],
 	[IWC,"IWC"],
 	[PW,"Pocket Watch"],
-	[WRB,"W. Rosch Bern"]
+	[WRB,"W. Rosch Bern"],
+	[WG," White Gold"],
+	[GF,"Gold Filled"]
 	];
 	
 	const rxAN=[
@@ -158,7 +164,10 @@ function nameParser(){ //Function to parse and format the 'name' box on the Peye
 	/IWC/ig,
 	/UFO/ig,
 	/PVD/ig,
-	/AD/ig
+	/DS/ig,
+	/(?<=\s)PP/ig,
+	/AD/ig,
+	/(?<=\d)CH/ig
 	];
 	
 	let name = document.getElementById('CatalogBoxName').value;//get the text from the namebox
@@ -250,6 +259,13 @@ function tagFormat(str){ //Function to format the tags
 	let tagBB=/Baby,Chrono/ig;
 	let tagSWolf=/Sea,Wolf/;
 	let tagMTissot=/Mathey,Tissot/;
+	let tagDHeer=/Deutsche,Heer/;
+	let tagBCushion=/Big,Cushion/;
+	let tagLSohne=/A.Lange,&,Shone/i;
+	let tagPDate=/Pointer,Date/i;
+	let tagCNico=/Charles,Nicolet/;
+	let tagAGruen=/Alpina,Gruen/;
+	
 	
 	
 	//Array to hold the tag tokens
@@ -318,7 +334,13 @@ function tagFormat(str){ //Function to format the tags
 	[tagJJ,"Jules Jurgensen"],
 	[tagBB, "Baby Chrono"],
 	[tagSWolf,"Sea Wolf"],
-	[tagMTissot,"Mathey Tissot"]
+	[tagMTissot,"Mathey Tissot"],
+	[tagDHeer,"Deutsche Heer"],
+	[tagBCushion,"Big Cushion"],
+	[tagLSohne,"A. Lange & Sohne"],
+	[tagPDate,"Pointer Date"],
+	[tagCNico,"Charles Nicolet"],
+	[tagAGruen,"Alpina Gruen"]
 	];
 	//Functions for commonly modified nouns
 	if(tagWatch.test(str)){
@@ -338,6 +360,9 @@ function tagFormat(str){ //Function to format the tags
 	}
 	if(/(?<=,)Military/.test(str)){
 		str=str.replace(/,Military/," Military");
+	}
+	if(/(?<=,)Co\.?,/.test(str)){
+		str=str.replace(/,Co\.?/," Co.");
 	}
 	
 		
