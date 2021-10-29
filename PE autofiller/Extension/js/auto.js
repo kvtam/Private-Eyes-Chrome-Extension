@@ -16,9 +16,9 @@ function autofill(){ //autofill function fills in the name/ description and stuf
 	fooKW+= ",Vintage Watch";
 	document.getElementById('CatalogBoxKeywords').value= fooKW;//Inputs the tags into the fields
 	document.getElementById('CatalogBoxEnKeywords').value= fooKW;
-	/*let idNum= document.getElementById('CatalogBoxText1').value; //This section gets the ID Number for the watch  **DEPRICATED**
+	let idNum= document.getElementById('CatalogBoxText1').value; //This section gets the ID Number for the watch  
 	idNum= idNum.slice(2);
-	fooDes+=","+idNum;*/
+	fooDes+=","+idNum;
 	document.getElementById('CatalogBoxDescription').value= fooDes;
 	document.getElementById('CatalogBoxEnDescription').value= fooDes;
 	fieldsToCap(); //Capitalizes the first letter in select fields
@@ -157,7 +157,8 @@ function nameParser(){ //Function to parse and format the 'name' box on the Peye
 	/USA/ig,
 	/IWC/ig,
 	/UFO/ig,
-	/PVD/ig
+	/PVD/ig,
+	/AD/ig
 	];
 	
 	let name = document.getElementById('CatalogBoxName').value;//get the text from the namebox
