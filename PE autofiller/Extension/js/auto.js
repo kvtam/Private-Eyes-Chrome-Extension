@@ -1,5 +1,5 @@
 function spaceToComma(string,target,replacement){ //Function to replace spaces in a string to commas
-	let i = 0, length = string.length;//Get the lenght of the string and iterate through it to replace all of the instances of target
+	let i = 0, length = string.length;//Get the length of the string and iterate through it to replace all of the instances of target
 	for (i; i < length; i++) {
 		string = string.replace(target, replacement);
 	}
@@ -26,11 +26,15 @@ function autofill(){ //autofill function fills in the name/ description and stuf
 	dateTimeEdit();
 	let jptext= document.getElementById('CatalogBoxHtml1').value;//Get the Japanese text to translate
 	//translator(jptext);//Translate the text
+	translated();
 	
 }
 
 function dateTimeEdit(){ //Function to edit the year
 	let input = window.prompt("BG color?");
+	if(!(/[w/b]/i.test(input))){
+		input = window.prompt("Incorrect input, BG color?");
+	}
 	let date= document.getElementById('datetime5').value;
 	input=input.toUpperCase();
 	switch(input){
@@ -60,9 +64,16 @@ function fieldsToCap(){//Function capitalizes the first letter of the first word
 		document.getElementById(_ENFields[i]).value=temp;
 	}
 }
+function translated(){
+	document.getElementById('CatalogBoxWord6').value="翻訳済み";
+}
 
 function yearFormat(str){ //Function to parse and format the year properly
 	//regexes
+	if(/^\D/.test(str)){
+	str=str.replace(/\D/,"");
+	}
+
 	let year = /^(\d{2,4}['|’|`]s?)|(\d{2,4}(?=s))/i;
 	let multiYear=/^\d+-\d+['|’|`]?s?/i;
 	let dec=/\d*/;
@@ -110,7 +121,7 @@ function nameParser(){ //Function to parse and format the 'name' box on the Peye
 	//Regexes here
 	let steel = /(?<=\s)ss(?=\s|$)|S\.Steel/i;
 	let water = /(?<=\s)w\/p(?=\s)/i;
-	let WP= /Water\s?Proof/ig;
+	let WP= /(Water\s?Proof)|wp/ig;
 	let black = /\s?BK/g;
 	let rose = /\s?RG/g;
 	let yellow= /\s?YG(\s|$)/ig;
@@ -158,16 +169,24 @@ function nameParser(){ //Function to parse and format the 'name' box on the Peye
 	[GF,"Gold Filled"]
 	];
 	
-	const rxAN=[
+	const rxAN=[//Acronyms
 	/USN BUSHIPS/ig,
 	/USA/ig,
 	/IWC/ig,
 	/UFO/ig,
 	/PVD/ig,
-	/DS/ig,
+	/(?<=\s)DS/ig,
 	/(?<=\s)PP/ig,
-	/AD/ig,
-	/(?<=\d)CH/ig
+	/(?<=\d)AD/ig,
+	/(?<=\d)CH/ig,
+	/FB/ig,
+	/MC4/ig,
+	/(?<=\s)UG/ig,
+	/LTD/ig,
+	/WW-II/ig,
+	/(?<=-)XX/ig,
+	/PHC/ig,
+	/HP/ig
 	];
 	
 	let name = document.getElementById('CatalogBoxName').value;//get the text from the namebox
@@ -175,7 +194,7 @@ function nameParser(){ //Function to parse and format the 'name' box on the Peye
 	//Make all words start with a capital	
 	name=name.replace(toCap,match => match.toUpperCase());
 	name=yearFormat(name);
-	
+	name=name.replace(/\(\)/,"");
 	for(let i=0;i<rxTokens.length;i++){
 		name=name.replace(rxTokens[i][0],rxTokens[i][1]);
 	}
@@ -265,13 +284,22 @@ function tagFormat(str){ //Function to format the tags
 	let tagPDate=/Pointer,Date/i;
 	let tagCNico=/Charles,Nicolet/;
 	let tagAGruen=/Alpina,Gruen/;
+	let tagBMeter=/Bezel,Meter/i;
+	let tagSpecial=/["”“].*["”“]/;
+	let tagNOS=/New,Old,Stock/ig;
+	let tagWEWC=/West,End/i;
+	let tagPatek=/Patek,Philippe/ig;
 	
-	
-	
+	if(tagSpecial.test(str)){
+		let temp=str.match(tagSpecial);
+		temp=spaceToComma(temp[0],","," ");
+		str=str.replace(tagSpecial,temp);
+	}
 	//Array to hold the tag tokens
 	const rxTokens_tags = [
 	[tagQuote,''],
 	[tagSteel,"Stainless Steel"],
+	[tagWEWC,"West End"],
 	[tagRose,"Rose Gold"],
 	[tagYellow,"Yellow Gold"],
 	[tagCaliber,"30mm Caliber"],
@@ -340,7 +368,10 @@ function tagFormat(str){ //Function to format the tags
 	[tagLSohne,"A. Lange & Sohne"],
 	[tagPDate,"Pointer Date"],
 	[tagCNico,"Charles Nicolet"],
-	[tagAGruen,"Alpina Gruen"]
+	[tagAGruen,"Alpina Gruen"],
+	[tagBMeter,"Bezel Meter"],
+	[tagNOS,"New Old Stock"],
+	[tagPatek,"Patek Philippe"]
 	];
 	//Functions for commonly modified nouns
 	if(tagWatch.test(str)){
@@ -384,6 +415,8 @@ function tagRemove(str){ //Function to Remove bad tags
 	let rmModel=/(?<=,)Model,|,Model(?=$)/g;
 	let rmBy =/(?<=,)By,/ig;
 	let rmAmp=/(?<=,)&,/g;
+	let rmCond=/,Condition/g;
+	let rmAnd=/And,/g;
 
 	//Array of tokens to remove
 	const rmTokens=[
@@ -395,7 +428,9 @@ function tagRemove(str){ //Function to Remove bad tags
 	rmModel,
 	rmComma,
 	rmBy,
-	rmAmp
+	rmAmp,
+	rmCond,
+	rmAnd
 	]
 	for(i=0;i<rmTokens.length;i++){
 		str=str.replace(rmTokens[i],'');
