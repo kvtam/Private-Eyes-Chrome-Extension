@@ -26,7 +26,7 @@ function autofill(){ //autofill function fills in the name/ description and stuf
 	dateTimeEdit();
 	let jptext= document.getElementById('CatalogBoxHtml1').value;//Get the Japanese text to translate
 	//translator(jptext);//Translate the text
-	translated();
+	//translated();
 	
 }
 
