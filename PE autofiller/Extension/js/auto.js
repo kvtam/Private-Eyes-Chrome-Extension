@@ -70,9 +70,9 @@ function translated(){
 
 function yearFormat(str){ //Function to parse and format the year properly
 	//regexes
-	if(/^\D/.test(str)){
+	/*if(/^\D/.test(str)){
 	str=str.replace(/\D/,"");
-	}
+	}*/
 
 	let year = /^(\d{2,4}['|’|`]s?)|(\d{2,4}(?=s))/i;
 	let multiYear=/^\d+-\d+['|’|`]?s?/i;
